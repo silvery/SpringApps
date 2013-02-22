@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<project name="springapp" basedir="." default="test">
+    <property file="build.properties"/>
+
+    
+    <target name="test" description="Test">
+        <echo>${user.home}</echo>
+    </target>
+
+
+
+</project>

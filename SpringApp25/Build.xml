@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+
+<project name="springapp" basedir="." default="redeploy">
+
+	<property file="build.properties"/>
+
+
+	<property name="src.dir" value="src"/>
+	<property name="web.dir" value="war"/>
+	<property name="build.dir" value="${web.dir}/WEB-INF/classes"/>
+	<property name="name" value="springapp"/>
+
+	<path id="master-classpath">
+		<fileset dir="${web.dir}/WEB-INF/lib">
+			<include name="*.jar"/>
+		</fileset>
+		<!-- We need the servlet API classes: -->
+		<fileset dir="${glassfish.home}/modules">
+			<include name="javax.servlet*.jar"/>
+		</fileset>
+		<!-- To test Eclipse (java6) Junit -->
+		<fileset dir="C:\EclipseJuno\plugins\org.junit_4.10.0.v4_10_0_v20120426-0900">
+			<include name="junit.jar"/>
+		</fileset>
+
+		<pathelement path="${build.dir}"/>
+	</path>
+
+	<target name="usage">
+		<echo message=""/>
+		<echo message="${name} build file"/>
+		<echo message="-----------------------------------"/>
+		<echo message=""/>
+		<echo message="Available targets are:"/>
+		<echo message=""/>
+		<echo message="build     --> Build the application"/>
+		<echo message="deploy    --> Deploy application as directory"/>
+		<echo message="reload    --> Reload application in Glassfish"/>
+		<echo message="start     --> Start GlassFish application"/>
+		<echo message="stop      --> Stop GlassFish application"/>
+		<echo message=""/>
+	</target>
+
+	<target name="build" description="Compile main source tree java files">
+		<mkdir dir="${build.dir}"/>
+		<javac destdir="${build.dir}" source="1.5" target="1.5" debug="true"
+               deprecation="false" optimize="false" failonerror="true">
+			<src path="${src.dir}"/>
+			<classpath refid="master-classpath"/>
+		</javac>
+	</target>
+
+	<target name="createwar" depends="build" description="Deploy application as a WAR file">
+		<war destfile="${name}.war"
+	             webxml="${web.dir}/WEB-INF/web.xml">
+			<fileset dir="${web.dir}">
+				<include name="**/*.*"/>
+			</fileset>
+		</war>
+
+	</target>
+
+	<!-- ============================================================== -->
+	<!-- GlassFish tasks  -->
+	<!-- ============================================================== -->
+
+	<presetdef name="asadmin">
+		<java jar="${glassfish.home}/modules/admin-cli.jar" fork="true" jvm="${java.home}/bin/java" >
+			<arg line="--port ${glassfish.admin.port}" />
+		</java>
+	</presetdef>
+
+	<target name="deploy">
+		<asadmin failonerror="true">
+			<arg value="deploy" />
+			<arg value="--force=true" />
+			<arg value="${name}.war" />
+		</asadmin>
+	</target>
+
+	<target name="redeploy" depends="createwar">
+		<asadmin failonerror="true">
+			<arg value="undeploy" />
+			<arg value="${name}" />
+		</asadmin>
+		<asadmin failonerror="true">
+			<arg value="deploy" />
+			<arg value="--force=true" />
+			<arg value="${name}.war" />
+		</asadmin>
+	</target>
+
+	<target name="startServer">
+		<exec dir="${glassfish.home}\bin" executable="cmd.exe">
+			<arg value="/c"/>
+			<arg value="startserv.bat"/>
+		</exec>
+	</target>
+
+	<target name="stoptServer">
+		<exec dir="${glassfish.home}\bin" executable="cmd.exe">
+			<arg value="/c"/>
+			<arg value="stopserv.bat"/>
+		</exec>
+	</target>
+
+	<!-- End GlassFishh tasks -->
+
+</project>

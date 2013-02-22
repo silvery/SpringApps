@@ -1,0 +1,9 @@
+Spring Tutorial
+http://static.springsource.org/docs/Spring-MVC-step-by-step/part1.html
+GlassFish ANT
+http://docs.oracle.com/cd/E19798-01/821-1752/beaep/index.html - the ANT library is missing in GlassFish 
+
+Therefore used this : 
+http://stackoverflow.com/questions/3635861/best-way-to-deploy-on-glassfish-v3
+Also may look at this 
+http://stackoverflow.com/questions/2057842/where-is-sun-appserv-ant-jar-for-glassfish-v3

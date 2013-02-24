@@ -12,7 +12,7 @@ public class PriceIncrease {
 
     public void setPercentage(int i) {
         percentage = i;
-        logger.info("Percentage set to : " + i);
+        logger.info("Percentage set to " + i);
     }
 
     public int getPercentage() {

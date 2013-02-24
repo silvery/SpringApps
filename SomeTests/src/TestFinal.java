@@ -8,9 +8,8 @@ public class TestFinal {
 		TestFinal.testFinalVar();
 
 	}
-	//Test Git 1 - delete after testing 
+	 
 	public static void testFinalVar(){
-		
 		int i = 0;
 		while(i<5){
 		   i++;

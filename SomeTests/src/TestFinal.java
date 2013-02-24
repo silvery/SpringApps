@@ -8,7 +8,7 @@ public class TestFinal {
 		TestFinal.testFinalVar();
 
 	}
-	//Test Git - delete after testing 
+	//Test Git 1 - delete after testing 
 	public static void testFinalVar(){
 		
 		int i = 0;
